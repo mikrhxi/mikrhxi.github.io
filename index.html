@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Industry Intelligence Report</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --featured-bg: #fffbeb;
+            --featured-border: #f59e0b;
+            --accent: #0f172a;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 280px;
+            background: var(--card-bg);
+            border-right: 1px solid var(--border);
+            padding: 2rem 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            display: none; /* Hidden on mobile */
+        }
+
+        @media(min-width: 1024px) {
+            .sidebar { display: block; }
+            .main-content { margin-left: 280px; }
+        }
+
+        .nav-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .nav-links a {
+            display: block;
+            padding: 0.5rem 0;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--primary); }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        header {
+            margin-bottom: 3rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .date-badge {
+            background: var(--accent);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 99px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Section Styling */
+        .category-section {
+            margin-bottom: 3rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .category-header {
+            background: var(--card-bg);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .category-header h2 {
+            font-size: 1.25rem;
+            color: var(--accent);
+        }
+
+        .item-list {
+            list-style: none;
+        }
+
+        /* Individual News Items */
+        .news-item {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.1s;
+        }
+
+        .news-item:last-child { border-bottom: none; }
+        .news-item:hover { background-color: #fcfcfc; }
+
+        /* Featured Items (***) */
+        .news-item.featured {
+            background-color: var(--featured-bg);
+            border-left: 4px solid var(--featured-border);
+        }
+
+        .news-item.featured .item-title::before {
+            content: "TOP STORY";
+            display: inline-block;
+            background: var(--featured-border);
+            color: white;
+            font-size: 0.65rem;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .item-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .item-title {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        /* Sub-items (o) */
+        .sub-items {
+            margin-top: 0.75rem;
+            padding-left: 1rem;
+            border-left: 2px solid var(--border);
+        }
+
+        .sub-item {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            list-style: none;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .sub-item::before {
+            content: "•";
+            color: var(--primary);
+            position: absolute;
+            left: -0.3rem;
+            font-weight: bold;
+        }
+
+        /* Links */
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            word-break: break-all;
+        }
+        
+        a:hover { text-decoration: underline; }
+
+        .link-icon { font-size: 0.8em; margin-left: 4px; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .category-header { padding: 1rem; }
+            .news-item { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="nav-title">Contents</div>
+        <nav class="nav-links" id="sidebar-nav">
+            <!-- JS will populate this -->
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header>
+            <span class="date-badge" id="current-date">Today's Report</span>
+            <h1 style="margin-top: 10px;">Executive AI Briefing</h1>
+            <p style="color: var(--text-secondary);">Models, Infrastructure, Market Analysis & Research</p>
+        </header>
+
+        <div id="content-container">
+            <!-- JS will inject content here -->
+        </div>
+        
+        <footer style="margin-top: 4rem; color: var(--text-secondary); font-size: 0.9rem; text-align: center;">
+            Generated Report • Confidential
+        </footer>
+    </main>
+
+    <script>
+        // PASTE YOUR RAW TEXT CONTENT INSIDE THESE BACKTICKS
+        const rawData = `
+Models, Agents and Tools 
+•	***Introducing Claude Opus 4.5 https://www.anthropic.com/news/claude-opus-4-5 and https://venturebeat.com/ai/anthropics-claude-opus-4-5-is-here-cheaper-ai-infinite-chats-and-coding
+o	Anthropic’s New Claude Opus 4.5 Reclaims the Coding Crown https://thenewstack.io/anthropics-new-claude-opus-4-5-reclaims-the-coding-crown-from-gemini-3/
+o	Anthropic releases Opus 4.5 with new Chrome and Excel integrations https://techcrunch.com/2025/11/24/anthropic-releases-opus-4-5-with-new-chrome-and-excel-integrations/
+•	FLUX.2: Frontier Visual Intelligence https://bfl.ai/blog/flux-2
+•	Introducing Exa 2.1 Dramatic improvement in search quality for both fast and agentic search https://exa.ai/blog/exa-api-2-1
+•	INTELLECT-3: A 100B+ MoE trained with large-scale RL https://www.primeintellect.ai/blog/intellect-3
+•	DeepSeek Math V2 : Mathematical Reasoning LLM is here https://github.com/deepseek-ai/DeepSeek-Math-V2
+•	Fara-7B: An Efficient Agentic Model for Computer Use https://www.microsoft.com/en-us/research/blog/fara-7b-an-efficient-agentic-model-for-computer-use/
+•	Orchestra-8B ToolOrchestra: Elevating Intelligence via Efficient Model and Tool Orchestration https://huggingface.co/datasets/nvidia/ToolScale
+•	Z-Image An Efficient Image Generation Foundation Model with Single-Stream Diffusion Transformer https://github.com/Tongyi-MAI/Z-Image
+•	RynnVLA-002: A Unified Vision-Language-Action and World Model https://huggingface.co/papers/2511.17502
+•	New Gemini API updates for Gemini 3 https://developers.googleblog.com/new-gemini-api-updates-for-gemini-3/
+•	Azure: Introducing Memory in Foundry Agent Service https://devblogs.microsoft.com/foundry/introducing-memory-in-foundry-agent-service/
+•	Introducing the Cisco Time Series Model: Unlock Machine Data Insights with Gen AI https://www.splunk.com/en_us/blog/artificial-intelligence/introducing-the-cisco-time-series-model.html
+•	Announcing Edison Analysis, our next-generation scientific analysis agent. https://edisonscientific.com/articles/introducing-edison-analysis
+•	Zyphra Demonstrates First Large Scale Training on Integrated AMD Compute and Networking Powered by IBM Cloud https://www.prnewswire.com/news-releases/zyphra-demonstrates-first-large-scale-training-on-integrated-amd-compute-and-networking-powered-by-ibm-cloud-302624291.html
+•	Salesforce Agentforce Observability lets you watch your AI agents think in near-real time https://venturebeat.com/ai/salesforce-agentforce-observability-lets-you-watch-your-ai-agents-think-in
+•	Rubrik Tests ‘Undo Button’ for Malfunctioning AI Agents https://www.theinformation.com/articles/rubrik-tests-undo-button-malfunctioning-ai-agents
+•	SA-FARI: Open Video Dataset https://www.conservationxlabs.com/sa-fari
+
+Silicon and AI Infrastructure
+•	***Meta Is in Talks to Use Google’s Chips in Challenge to Nvidia https://www.wsj.com/tech/ai/meta-is-in-talks-to-use-googles-chips-in-challenge-to-nvidia-be390a51
+•	***China’s tech giants take AI model training offshore to tap Nvidia chips https://www.ft.com/content/96fe9898-a3a4-4a33-be1d-da06bdb6cb2b
+•	***As AI Data Centers Face Delays, the Blame Game Begins https://www.theinformation.com/articles/ai-data-centers-face-delays-blame-game-begins
+•	Tech Firms From Dell to HP Warn of Memory Chip Squeeze From AI https://www.bloomberg.com/news/articles/2025-11-26/tech-firms-from-dell-to-hp-warn-of-memory-chip-squeeze-from-ai 
+•	Baidu is emerging as a major AI chip player in China to fill the Nvidia gap https://www.cnbc.com/2025/11/28/baidu-is-major-ai-chip-player-in-china-to-fill-nvidia-gap.html
+•	Dell Raises Annual Outlook for Shipments of AI Servers https://www.bloomberg.com/news/articles/2025-11-25/dell-raises-annual-outlook-for-shipments-of-ai-servers
+•	Amazon to invest up to $50 billion to expand AI and supercomputing infrastructure for US government agencies https://www.aboutamazon.com/news/company-news/amazon-ai-investment-us-federal-agencies
+•	Google must double AI serving capacity every 6 months to meet demand, AI infrastructure boss tells employees https://www.cnbc.com/2025/11/21/google-must-double-ai-serving-capacity-every-6-months-to-meet-demand.html
+•	Amazon Data Center Tally Tops 900 Amid AI Frenzy, Documents Show https://www.bloomberg.com/news/articles/2025-11-24/amazon-data-center-tally-tops-900-amid-ai-frenzy-documents-show
+
+Consumer, Developer and Enterprise Software and Applications
+•	Introducing shopping research in ChatGPT https://openai.com/index/chatgpt-shopping-research/
+•	Ask Google to call local businesses for you. https://blog.google/products/shopping/how-to-agentic-calling-let-google-call/
+•	Perplexity: Introducing AI assistants with memory https://www.perplexity.ai/hub/blog/introducing-ai-assistants-with-memory
+•	Alibaba’s Main AI App Debuts Strongly in Effort to Rival ChatGPT https://www.bloomberg.com/news/articles/2025-11-24/alibaba-s-main-ai-app-draws-10-million-downloads-in-strong-debut
+•	Character AI will offer interactive ‘Stories’ to kids instead of open-ended chat https://techcrunch.com/2025/11/25/character-ai-will-offer-interactive-stories-to-kids-instead-of-open-ended-chat/
+•	Yutori Navigator — a state-of-the-art web agent that autonomously navigates websites on its own cloud browser to complete everyday tasks https://yutori.com/blog/introducing-navigator
+•	October Workspace Drop: New AI-powered storytelling, research, and data protections https://workspace.google.com/blog/product-announcements/october-workspace-drop-ai-storytelling-research-and-data-protections
+•	4 ways to refine your content in Flow https://blog.google/technology/google-labs/flow-refine-videos/
+•	Announcing LlamaSheets: Turn Messy Spreadsheets into AI-Ready Data https://www.llamaindex.ai/blog/announcing-llamasheets-turn-messy-spreadsheets-into-ai-ready-data-beta
+•	Tencent Announces Global Launch of Hunyuan 3D Engine to Empower Creators with Advanced Creation Tools https://www.tencent.com/en-us/articles/2202235.html
+
+Edge, End-user Hardware and On-device AI
+•	Alibaba Releases AI Glasses in Rare Consumer Gadget Foray https://www.bloomberg.com/news/articles/2025-11-27/alibaba-releases-quark-smart-glasses-with-its-qwen-ai-built-in
+•	Altman describes OpenAI’s forthcoming AI device as more peaceful and calm than the iPhone https://techcrunch.com/2025/11/24/altman-describes-openais-forthcoming-ai-device-as-more-peaceful-and-calm-than-the-iphone/
+
+Physical AI
+•	***Inside the Lab Teaching Robots to Make Coffee, Fold Laundry https://www.bloomberg.com/news/newsletters/2025-11-26/inside-the-lab-teaching-robots-to-make-coffee-fold-laundry
+•	***Kicking Robots: Humanoids and the tech-­industry hype machine https://harpers.org/archive/2025/12/kicking-robots-james-vincent-humanoids/Humanoids
+
+Market Developments, Profiles, Interviews, Opinion and Commentary
+•	***Nvidia’s ‘I’m Not Enron’ memo has people asking a lot of questions already answered by that memo https://www.theverge.com/business/828047/nvidia-enron-conspiracy-accounting and https://www.cnbc.com/2025/11/25/nvidia-pushes-back-on-charges-that-ai-investment-is-a-bubble.html
+•	***Nvidia: Happy for you, Google, but we're still better https://www.businessinsider.com/nvidia-generation-ahead-google-chips-2025-11 and https://www.theverge.com/business/828047/nvidia-enron-conspiracy-accounting
+•	***Google has pierced Nvidia’s aura of invulnerability https://www.economist.com/business/2025/11/25/google-has-pierced-nvidias-aura-of-invulnerability?giftId=Nzc2ZjhmOTMtODc2My00MDg5LWJmMDYtMTFlMmMyN2I4MjNh&utm_campaign=gifted_article
+•	***Google, the Sleeping Giant in Global AI Race, Now ‘Fully Awake’ https://www.bloomberg.com/news/articles/2025-11-25/google-the-sleeping-giant-in-global-ai-race-now-fully-awake
+•	***How Google Finally Leapfrogged Rivals With New Gemini Rollout https://www.wsj.com/tech/ai/google-gemini-3-ai-behind-scenes-e1787729
+•	***Why Google’s Soaring Stock Is Defying Fears of an AI Bubble https://www.wsj.com/finance/stocks/google-alphabet-stock-ai-36724d9f
+•	***The 5 reasons why Google is suddenly on a tear and dominating the AI race https://www.businessinsider.com/google-company-turnaround-moment-reasons-ai-race-gemini-2025-11
+•	***OpenAI faces its toughest challenger yet https://www.axios.com/2025/11/25/google-gemini-openai-chatgpt-anthropic-claude
+•	***Why Fears of a Trillion-Dollar AI Bubble Are Growing https://www.bloomberg.com/news/articles/2025-11-24/why-ai-bubble-concerns-loom-as-openai-microsoft-meta-ramp-up-spending
+•	***The A.I. Boom Has Found Another Gear. Why Can’t People Shake Their Worries? https://www.nytimes.com/2025/11/20/technology/ai-stock-boom-nvidia.html
+•	***Inside the AI Bubble How big tech’s big bets became everybody’s problem https://nymag.com/intelligencer/article/inside-the-ai-bubble.html
+•	***A.I. and the Trillion-Dollar Question https://www.nytimes.com/2025/11/28/world/ai-valuations-markets-technology-hongkong-fire.html
+•	***Robots and AI Are Already Remaking the Chinese Economy https://www.wsj.com/tech/ai/ai-robots-china-manufacturing-89ae1b42?st=wTHV3o
+•	***The ChatGPT effect: In 3 years the AI chatbot has changed the way people look things up https://theconversation.com/the-chatgpt-effect-in-3-years-the-ai-chatbot-has-changed-the-way-people-look-things-up-270143
+•	OpenAI partners amass $100bn debt pile to fund its ambitions https://www.ft.com/content/5605d086-289e-4b5f-803b-4c13666976a5
+•	***The Godmother of AI Didn’t Expect It to Be This Massive https://www.bloomberg.com/features/2025-fei-fei-li-weekend-interview
+•	***AI video start-up takes wide-angle view to boost growth https://www.ft.com/content/215df8da-717b-4e5f-ac66-c02e142e6ad6
+•	***AI Slop Recipes Are Taking Over the Internet — And Thanksgiving Dinner https://www.bloomberg.com/news/articles/2025-11-25/ai-slop-recipes-are-taking-over-the-internet-and-thanksgiving-dinner
+•	***Amazon's AI capacity crunch and performance issues pushed customers to rivals including Google https://www.businessinsider.com/amazon-ai-capacity-crunch-pushed-customers-to-rivals-google-anthropic-2025-11
+•	***Teens Are Saying Tearful Goodbyes to Their AI Companions https://www.wsj.com/tech/ai/character-ai-teen-access-mental-health-4ec02a43
+•	Microsoft faces uphill climb to turn enterprise dominance into widespread AI chatbot adoption https://www.cnbc.com/2025/11/23/microsoft-faces-uphill-climb-to-win-in-ai-chatbots-with-copilot.html
+•	ChatGPT is huge in India. These locally focused startups found a way to compete https://restofworld.org/2025/chatgpt-india-alternative-ai-llms/
+•	The AI Industry Is Built on a Big Unproven Assumption https://www.bloomberg.com/news/articles/2025-11-24/the-ai-industry-is-built-on-a-big-unproven-assumption
+•	Why OpenAI Should Worry About Google’s Pretraining Prowess https://www.theinformation.com/articles/openai-worry-googles-pretraining-prowess
+
+Rumors
+•	N/A
+
+Functional Application
+•	N/A
+
+Industries
+•	Auto, Transportation and Logistics
+o	N/A
+•	Energy, Resources and Utilities
+o	N/A
+•	Financial Services
+o	How Principal Financial’s new CEO brought AI religion to the C-suite, and then worked to upskill 20,000 employees https://fortune.com/2025/11/21/principal-financial-upskilling-ai-literacy/
+•	Govt., Public Sector. Defense and Education
+o	N/A
+•	Industrial, Manufacturing and Chemicals
+o	N/A
+•	Life Sciences and Healthcare
+o	Elsevier unveils AI-assisted research workspace to speed up R&D https://www.fiercehealthcare.com/health-tech/elsevier-unveils-ai-powered-research-tool-leapspace-transform-workflows
+o	Powered by AI, VA is improving Veteran care experience https://news.va.gov/143486/powered-by-ai-improving-veteran-care-experience/
+o	Aetna unveils new conversational AI navigation tool for members https://www.fiercehealthcare.com/payers/aetna-unveils-new-conversational-ai-navigation-tool-members
+o	Microsoft Dragon Copilot expands to radiologists, transforming the reporting workflow https://www.microsoft.com/en-us/industry/blog/healthcare/2025/11/24/driving-a-unified-ai-experience-at-rsna-2025-microsoft-dragon-copilot-expands-to-radiologists-transforming-the-reporting-workflow/
+•	Prof., IT and Business Services
+o	McKinsey Cuts About 200 Tech Jobs, Shifts More Roles to AI https://www.bloomberg.com/news/articles/2025-11-26/mckinsey-cuts-about-200-tech-jobs-shifts-more-roles-to-ai
+o	AI threatens consultants but they won’t go the way of Blockbuster https://www.thetimes.com/business/companies-markets/article/artificial-intelligence-consulting-dwrbz7q2w
+o	McKinsey, BCG, and Deloitte's new competition is small, fast, and driven by AI https://www.businessinsider.com/mckinsey-bcg-and-deloitte-competition-small-boutique-specialized-ai-2025-4
+•	Retail and Consumer Products
+o	AI is reshaping how Americans shop. Here’s how Target’s top tech leader says the retailer is adapting https://finance.yahoo.com/news/ai-reshaping-americans-shop-target-171035508.html
+o	Swatch’s New OpenAI-Powered Tool Lets You Design Your Own Watch https://www.wired.com/story/swatchs-new-openai-powered-tool-lets-you-design-your-own-watch/
+o	L’Oréal and NVIDIA collaborate to supercharge beauty with next-generation AI https://www.loreal.com/en/press-release/research-and-innovation/l-oreal-and-nvidia-collaborate-to-supercharge-beauty-with-next-generation-ai/
+o	***OpenAI and Perplexity are launching AI shopping assistants, but competing startups aren’t sweating it https://techcrunch.com/2025/11/25/openai-and-perplexity-are-launching-ai-shopping-assistants-but-competing-startups-arent-sweating-it
+•	Tech, Media and Telecom
+o	***Inside Hollywood’s AI Freak-Out, Featuring Darren Aronofsky, Natasha Lyonne, Tilly Norwood, and a Lot of Nervous Anonymous Sources https://www.vanityfair.com/hollywood/story/ai-the-elephant-in-the-room-hollywood-cant-stop-talking-about
+•	Travel, Hospitality and Real Estate
+o	N/A
+
+Design, Science, Art, Learning, Religion and Culture
+•	***Five years on, Google DeepMind’s AlphaFold shows why science may be AI’s killer app https://fortune.com/2025/11/28/google-deepmind-alphafold-science-ai-killer-app/
+•	More than half of new articles on the internet are being written by AI – is human writing headed for extinction? https://theconversation.com/more-than-half-of-new-articles-on-the-internet-are-being-written-by-ai-is-human-writing-headed-for-extinction-268354
+•	Is ChatGPT Conscious? Many users feel they’re talking to a real person. Scientists say it’s time to consider whether they’re onto something. https://nymag.com/intelligencer/article/chatgpt-artificial-intelligence-conscious.html
+
+Sustainability, Climate, Geospatial and Space 
+•	N/A
+
+Techniques and Product Insights
+•	Alibaba's AgentEvolver lifts model performance in tool use by ~30% using synthetic, auto-generated tasks https://venturebeat.com/ai/alibabas-agentevolver-lifts-model-performance-in-tool-use-by-30-using
+•	Effective harnesses for long-running agents https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents
+•	Building an AI-native engineering team https://developers.openai.com/codex/guides/build-ai-native-engineering-team/
+
+Adoption, Value and Case Studies
+•	OpenAI Forecasts Nearly as Many ChatGPT Subscribers as Spotify by 2030 https://www.theinformation.com/articles/openai-projected-least-220-million-people-will-pay-chatgpt-2030
+•	***These Small-Business Owners Are Putting AI to Good Use https://www.wsj.com/tech/ai/these-small-business-owners-are-putting-ai-to-good-use-f790d5a9
+
+Market Studies, Perspectives, Lists and Resources
+•	***The Emerging Agentic Enterprise: How Leaders Must Navigate a New Age of AI https://sloanreview.mit.edu/projects/the-emerging-agentic-enterprise-how-leaders-must-navigate-a-new-age-of-ai/
+•	***Agents, robots, and us: Skill partnerships in the age of AI https://www.mckinsey.com/mgi/our-research/agents-robots-and-us-skill-partnerships-in-the-age-of-ai
+•	OpenAI named Emerging Leader in Generative AI https://openai.com/index/gartner-2025-emerging-leader/
+•	IDC AWS Study: Organizations embrace the agentic future https://aws.amazon.com/isv/resources/agentic-ai-idc-study/
+
+Financials, Monetization and Markets
+•	***Nvidia Stock Falls Following Information Report on Google-Meta Chip Talks https://www.theinformation.com/briefings/nvidia-stock-falls-following-information-report-google-meta-chip-talks and https://on.ft.com/43Y7Yk3
+•	***Alphabet races toward $4 trillion valuation as AI-fueled gains accelerate https://finance.yahoo.com/news/alphabet-races-toward-4-trillion-154219877.html and https://www.bloomberg.com/news/articles/2025-11-25/alphabet-s-rally-threatens-world-s-most-valuable-stock-standings
+•	***Revenue From AI Coding Tools Surpasses $3.1 Billion https://www.theinformation.com/articles/revenue-ai-coding-tools-surpasses-3-1-billion
+•	Workday Third-Quarter Profit, Sales Rise on AI Momentum https://www.wsj.com/business/earnings/workday-third-quarter-profit-sales-rise-on-ai-momentum-79f9625c
+•	Alibaba’s Cloud Revenue Grows 34% on AI Demand https://www.theinformation.com/briefings/alibabas-cloud-revenue-grows-34-ai-demand
+•	Google is increasingly showing ads inside AI Mode results, signaling a major new ad surface emerging within Google Search. https://searchengineland.com/google-ads-inside-ai-mode-tests-expand-464979
+•	Walmart Is Exploring Bringing Ads to Sparky, Its New AI Shopping Agent https://www.wsj.com/business/retail/walmart-is-exploring-bringing-ads-to-sparky-its-new-ai-shopping-agent-83e45344
+
+People, Talent and Organizations
+•	Amazon pushes in-house AI coding tool Kiro over competitors', memo shows https://www.reuters.com/business/retail-consumer/amazon-pushes-in-house-ai-coding-tool-kiro-over-competitors-memo-shows-2025-11-25/
+•	Siemens’ Push Into AI Extends to CEO’s Workout Routine https://www.bloomberg.com/news/articles/2025-11-28/siemens-push-into-ai-extends-to-ceo-s-workout-routine
+
+Workforce and Economic Impact
+•	***MIT study finds AI can already replace 11.7% of U.S. workforce https://www.cnbc.com/2025/11/26/mit-study-finds-ai-can-already-replace-11point7percent-of-us-workforce.html
+•	***The A.I. Boom Is Driving the Economy. What Happens if It Falters? https://www.nytimes.com/2025/11/22/business/the-ai-boom-economy.html
+•	***A Tale of Two Sisters: What AI Means for Their Different Career Paths https://www.wsj.com/tech/ai/ai-career-security-young-adults-c49e4aa8
+•	HP announces job cuts and AI replacement to increase profitability https://www.bloomberg.com/news/articles/2025-11-25/hp-announces-job-cuts-as-profit-outlook-falls-short-of-estimates
+•	Estimating AI productivity gains from Claude conversations https://www.anthropic.com/research/estimating-productivity-gains
+•	Graduate jobs under threat from AI, PwC boss says https://www.bbc.com/news/articles/cm272510e6jo
+•	AI risks deepening inequality, says head of world’s largest SWF https://www.ft.com/content/30c6cff1-a176-43f8-ab09-94212ba6d824
+
+Trust, Interpretability, Risk, Safety, Bias, Ethics, Governance and Security
+•	***What OpenAI Did When ChatGPT Users Lost Touch With Reality https://www.nytimes.com/2025/11/23/technology/openai-chatgpt-users-risks.html
+•	***ChatGPT told them they were special — their families say it led to tragedy https://techcrunch.com/2025/11/23/chatgpt-told-them-they-were-special-their-families-say-it-led-to-tragedy/
+•	The Political Gap Between AIs & Citizens - An analysis of how Large Language Models perceive national priorities compared to actual election results. https://llm-politics.foaster.ai/
+•	AI is too risky to insure, say people whose job is insuring risk https://techcrunch.com/2025/11/23/ai-is-too-risky-to-insure-say-people-whose-job-is-insuring-risk/
+•	A new AI benchmark tests whether chatbots protect human well-being https://techcrunch.com/2025/11/24/a-new-ai-benchmark-tests-whether-chatbots-protect-human-wellbeing/
+•	A Researcher Made an AI That Completely Breaks the Online Surveys https://www.404media.co/a-researcher-made-an-ai-that-completely-breaks-the-online-surveys-scientists-rely-on/
+•	AI can't hear everyone equally https://www.axios.com/2025/11/22/ai-accents-chatgpt-jobs-health
+
+Intellectual Property and Litigation
+•	US Patent Office issues new guidelines for AI-assisted inventions https://www.reuters.com/legal/government/us-patent-office-issues-new-guidelines-ai-assisted-inventions-2025-11-26/
+•	Warner Music Group strikes ‘landmark’ deal with Suno; settles copyright lawsuit against AI music generator https://www.musicbusinessworldwide.com/warner-music-group-settles-with-suno-strikes-first-of-its-kind-deal-with-ai-song-generator/
+•	Major Music Labels Strike Deals With New AI Streaming Service https://www.bloomberg.com/news/articles/2025-11-20/major-music-labels-strike-deals-with-new-ai-streaming-service
+•	Science-centric streaming service Curiosity Stream is an AI-licensing firm now https://arstechnica.com/gadgets/2025/11/curiosity-stream-expects-to-make-most-of-its-money-from-ai-deals-by-2027/
+
+Policy, Regulation, Geopolitics and Sovereign AI
+•	*** ‘Sovereign AI’ Takes Off as Countries Seek to Avoid Overreliance on Superpowers https://www.wsj.com/tech/ai/sovereign-ai-takes-off-as-countries-seek-to-avoid-overdependence-on-superpowers-6b1689f7
+•	Trump aims to boost AI innovation, build platform to harness government data https://www.reuters.com/business/trump-aims-boost-ai-innovation-build-platform-harness-government-data-2025-11-24/ and https://www.whitehouse.gov/presidential-actions/2025/11/launching-the-genesis-mission
+•	China leapfrogs US in global market for ‘open’ AI models https://www.ft.com/content/931c8218-a9d7-4cbd-8b08-27516637ff41
+•	SAP Unveils EU AI Cloud: A Unified Vision for Europe’s Sovereign AI and Cloud Future https://news.sap.com/2025/11/sap-eu-ai-cloud-unified-vision-europe-sovereign-ai-cloud-future/
+
+Community, Social Impact and Grants
+•	N/A
+
+Startups, Investments and M&A
+•	***Physical Intelligence raises $600M to advance robot foundation models https://www.therobotreport.com/physical-intelligence-raises-600m-advance-robot-foundation-models/
+•	SF Compute, an AI Computing Marketplace, Raises $40 Million https://www.wsj.com/articles/sf-compute-an-ai-computing-marketplace-raises-40-million-2b0d0ef4
+•	China’s Moonshot AI Raising Fresh Funds That Could Value It at About $4 Billion https://www.wsj.com/tech/ai/chinas-moonshot-ai-raising-fresh-funds-that-could-value-it-at-about-4-billion-20562245
+•	Wiz founders back AI product security agent startup https://www.axios.com/2025/11/25/clover-security-funding-wiz-crowdstrike-notable-capital
+•	Robinhood CEO's math-focused AI startup Harmonic valued at $1.45 billion in latest fundraising https://www.reuters.com/business/robinhood-ceos-math-focused-ai-startup-harmonic-valued-145-billion-latest-2025-11-25/
+•	AI Startup AGI, Inc In Talks To Raise Money At $500 Million Valuation https://www.forbes.com/sites/annatong/2025/11/19/ai-startup-agi-inc-in-talks-to-raise-money-at-500-million-valuation/
+•	Norm Ai Announces $50 Million Blackstone Investment, Launch of New AI-native Law Firm Norm Law https://www.prnewswire.com/news-releases/norm-ai-announces-50-million-blackstone-investment-launch-of-new-ai-native-law-firm-norm-law-302621622.html
+•	Tidalwave raises $22 million Series A to improve the mortgage process with AI https://fortune.com/2025/11/21/tidalwave-raises-22-million-series-a-to-improve-the-mortgage-process-with-ai/
+•	Jeff Bezos’ New AI Venture Quietly Acquired an Agentic Computing Startup https://www.wired.com/story/jeff-bezos-new-ai-company-acquired-agentic-computing-startup/
+•	Archetype AI Raises $35M in Series A Funding to advance physical AI platform https://www.finsmes.com/2025/11/archetype-ai-raises-35m-in-series-a-funding.html
+•	AI Startup Raises $75 Million to Take Junior Bankers’ Grunt Work https://www.bloomberg.com/news/articles/2025-11-24/ai-startup-raises-75-million-to-take-junior-bankers-grunt-work
+•	Cerrion raises $18M to reduce factory downtime with AI video agents https://tech.eu/2025/11/25/cerrion-raises-18m-to-reduce-factory-downtime-with-ai-video-agents/
+•	Peec AI raises $21m Series A backed by Singular and Antler https://sifted.eu/articles/peec-ai-raises-21m-series-a
+•	Onton raises $7.5M to expand its AI-powered shopping site beyond furniture https://techcrunch.com/2025/11/26/onton-raises-7-5m-to-expand-its-ai-powered-shopping-site-beyond-furniture
+•	Norway’s SportAI raises $3 million to expand camera-agnostic sports analysis tech https://bebeez.eu/2025/11/25/norways-sportai-raises-3-million-to-expand-camera-agnostic-sports-analysis-tech/
+•	Nokia and NestAI Announce Strategic Partnership and NestAI Raises €100 Million to Accelerate Physical AI Innovation https://www.nokia.com/newsroom/nokia-and-nestai-announce-strategic-partnership-and-nestai-raises-100-million-to-accelerate-physical-ai-innovation/
+•	Here are the 49 US AI startups that have raised $100M or more in 2025 https://techcrunch.com/2025/11/26/here-are-the-49-us-ai-startups-that-have-raised-100m-or-more-in-2025
+•	Google teams up with Accel to hunt for India’s next AI breakouts https://techcrunch.com/2025/11/24/google-teams-up-with-accel-to-hunt-for-indias-next-ai-breakouts/
+
+Ecosystems and Partnerships
+•	N/A
+
+Videos and Podcasts
+•	***Dwarkesh Podcast: Ilya Sutskever – We're moving from the age of scaling to the age of research https://www.dwarkesh.com/p/ilya-sutskever-2
+•	***The Thinking Game | Full documentary | https://www.youtube.com/watch?v=d95J8yzvjbQ
+
+Research Papers
+•	***Google’s ‘Nested Learning’ paradigm could solve AI's memory and continual learning problem https://venturebeat.com/ai/googles-nested-learning-paradigm-could-solve-ais-memory-and-continual and https://research.google/blog/introducing-nested-learning-a-new-ml-paradigm-for-continual-learning/
+•	***New AI agent learns to use CAD to create 3D objects from sketches https://news.mit.edu/2025/new-ai-agent-learns-use-cad-create-3d-objects-sketches-1119
+•	***Building the Web for Agents: A Declarative Framework for Agent-Web Interaction https://arxiv.org/abs/2511.11287v1
+•	Real-time speech-to-speech translation https://research.google/blog/real-time-speech-to-speech-translation/
+•	Nemotron Elastic: Towards Efficient Many-in-One Reasoning LLMs https://arxiv.org/abs/2511.16664
+•	Granular Concept Circuits: Toward a Fine-Grained Circuit Discovery for Concept Representations https://openaccess.thecvf.com/content/ICCV2025/papers/Kwon_Granular_Concept_Circuits_Toward_a_Fine-Grained_Circuit_Discovery_for_Concept_ICCV_2025_paper.pdf
+•	Latent Collaboration in Multi-Agent Systems https://huggingface.co/papers/2511.20639
+•	Computer-Use Agents as Judges for Generative User Interface https://arxiv.org/abs/2511.15567
+•	Agent0-VL: Exploring Self-Evolving Agent for Tool-Integrated Vision-Language Reasoning https://huggingface.co/papers/2511.19900
+•	Pushing the Limit of Efficient Inference-Time Scaling with Terminal Velocity Matching https://lumalabs.ai/blog/engineering/tvm
+•	Orion: A Unified Visual Agent for Multimodal Perception, Advanced Visual Reasoning and Execution https://huggingface.co/papers/2511.14210
+•	Teaching Large Language Models to Speak Spotify: How Semantic IDs Enable Personalization https://research.atspotify.com/2025/11/teaching-large-language-models-to-speak-spotify-how-semantic-ids-enable
+•	New Artificial Intelligence Model Could Speed Rare Disease Diagnosis https://hms.harvard.edu/news/new-artificial-intelligence-model-could-speed-rare-disease-diagnosis
+•	Drug-like antibody design against challenging targets with atomic precision https://chaiassets.com/chai-2/paper/technical_report_challenging_targets.pdf
+•	Souper-Model: How Simple Arithmetic Unlocks State-of-the-Art LLM Performance https://arxiv.org/abs/2511.13254
+•	V-ReasonBench: Toward Unified Reasoning Benchmark Suite for Video Generation Models https://huggingface.co/papers/2511.16668
+•	On the Fundamental Limits of LLMs at Scale https://arxiv.org/abs/2511.12869
+•	Intelligence per Watt: Measuring Intelligence Efficiency of Local AI https://arxiv.org/abs/2511.07885
+•	From shortcuts to sabotage: natural emergent misalignment from reward hacking https://www.anthropic.com/research/emergent-misalignment-reward-hacking
+•	Solving a Million-Step LLM Task with Zero Errors https://arxiv.org/abs/2511.09030
+•	Agent-R1: Training Powerful LLM Agents with End-to-End Reinforcement Learning https://arxiv.org/abs/2511.14460
+•	Mantis: A Versatile Vision-Language-Action Model with Disentangled Visual Foresight https://huggingface.co/papers/2511.16175
+•	Seer: Online Context Learning for Fast Synchronous LLM Reinforcement Learning https://arxiv.org/abs/2511.14617
+•	MIT scientists debut a generative AI model that could create molecules addressing hard-to-treat diseases https://news.mit.edu/2025/mit-scientists-debut-generative-ai-model-that-could-create-molecules-addressing-hard-to-treat-diseases-1125
+•	GigaEvo: An Open Source Optimization Framework Powered By LLMs And Evolution Algorithms https://huggingface.co/papers/2511.17592
+•	MedSAM3: Delving into Segment Anything with Medical Concepts https://huggingface.co/papers/2511.19046
+•	HunyuanOCR Technical Report https://arxiv.org/abs/2511.19575
+•	Cognitive Foundations for Reasoning and Their Manifestation in LLMs https://arxiv.org/html/2511.16660v1
+•	Utilizing Large Language Models for Zero-Shot Medical Ontology Extension from Clinical Notes https://arxiv.org/abs/2511.16548
+•	General Agentic Memory Via Deep Research https://huggingface.co/papers/2511.18423
+•	GeoVista: Web-Augmented Agentic Visual Reasoning for Geolocalization https://huggingface.co/papers/2511.15705
+•	Computer-Use Agents as Judges for Generative User Interface https://huggingface.co/papers/2511.15567
+•	Cognitive Foundations for Reasoning and Their Manifestation in LLMs https://arxiv.org/abs/2511.16660
+`;
+
+        // UTILITIES
+        
+        // Convert URLs to clickable links
+        function linkify(text) {
+            const urlRegex = /(https?:\/\/[^\s]+)/g;
+            return text.replace(urlRegex, function(url) {
+                // Remove trailing punctuation sometimes caught
+                const cleanUrl = url.replace(/[.,;]$/, '');
+                return `<a href="${cleanUrl}" target="_blank">${cleanUrl}</a>`;
+            });
+        }
+
+        // Set Date
+        const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', dateOptions);
+
+        // MAIN PARSER
+        function parseAndRender(text) {
+            const lines = text.split('\n');
+            const container = document.getElementById('content-container');
+            const nav = document.getElementById('sidebar-nav');
+            
+            let currentSection = null;
+            let currentList = null;
+            let lastItem = null; // To attach sub-items (o) to
+
+            lines.forEach((line) => {
+                line = line.trim();
+                if (!line) return;
+
+                // Check for Sub-items (o)
+                if (line.startsWith('o')) {
+                    if (lastItem) {
+                        const subContent = linkify(line.substring(1).trim());
+                        
+                        // Create sub-ul if not exists
+                        let subUl = lastItem.querySelector('.sub-items');
+                        if (!subUl) {
+                            subUl = document.createElement('ul');
+                            subUl.className = 'sub-items';
+                            lastItem.appendChild(subUl);
+                        }
+                        
+                        const subLi = document.createElement('li');
+                        subLi.className = 'sub-item';
+                        subLi.innerHTML = subContent;
+                        subUl.appendChild(subLi);
+                    }
+                    return;
+                }
+
+                // Check for Main Items (•)
+                if (line.startsWith('•')) {
+                    if (!currentList) return; // Should not happen if format is correct
+
+                    let content = line.substring(1).trim();
+                    const isFeatured = content.includes('***');
+                    
+                    if (isFeatured) {
+                        content = content.replace(/\*\*\*/g, '').trim();
+                    }
+
+                    const li = document.createElement('li');
+                    li.className = 'news-item';
+                    if (isFeatured) li.classList.add('featured');
+
+                    // Process text to links
+                    const linkedContent = linkify(content);
+
+                    li.innerHTML = `<div class="item-content"><div class="item-title">${linkedContent}</div></div>`;
+                    
+                    currentList.appendChild(li);
+                    lastItem = li; // Set as last item for potential sub-items
+                    return;
+                }
+
+                // If not empty, not • and not o, it is a Header/Category
+                // Close previous section if exists
+                currentSection = document.createElement('section');
+                currentSection.className = 'category-section';
+                
+                // Create Anchor ID
+                const safeId = line.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                currentSection.id = safeId;
+
+                const header = document.createElement('div');
+                header.className = 'category-header';
+                header.innerHTML = `<h2>${line}</h2>`;
+                
+                currentSection.appendChild(header);
+                
+                currentList = document.createElement('ul');
+                currentList.className = 'item-list';
+                currentSection.appendChild(currentList);
+                
+                container.appendChild(currentSection);
+
+                // Add to sidebar
+                const navLink = document.createElement('a');
+                navLink.href = `#${safeId}`;
+                navLink.textContent = line;
+                nav.appendChild(navLink);
+                
+                lastItem = null; // Reset last item
+            });
+        }
+
+        // Run
+        document.addEventListener('DOMContentLoaded', () => {
+            parseAndRender(rawData);
+        });
+    </script>
+</body>
+</html>
